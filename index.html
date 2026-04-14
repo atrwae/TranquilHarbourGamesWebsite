@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dark Forge Studios</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0f;
+      --surface: #16161a;
+      --border: #2a2a30;
+      --text: #e8e8ec;
+      --muted: #7a7a88;
+      --accent: #7c5cbf;
+      --accent-light: #a07ee0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 10;
+    }
+    .logo { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.04em; color: var(--text); }
+    .logo span { color: var(--accent-light); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul li a { color: var(--muted); font-size: 0.9rem; letter-spacing: 0.03em; }
+    nav ul li a:hover { color: var(--text); text-decoration: none; }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 6rem 2rem 5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 { font-size: clamp(2rem, 6vw, 3.8rem); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 1rem; }
+    .hero h1 span { color: var(--accent-light); }
+    .hero p { color: var(--muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto 2rem; }
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.8rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: var(--accent-light); text-decoration: none; }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      margin-left: 0.8rem;
+    }
+    .btn-outline:hover { background: var(--surface); }
+
+    /* SECTION */
+    section { padding: 4rem 2rem; max-width: 1000px; margin: 0 auto; }
+    section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .section-sub { color: var(--muted); margin-bottom: 2.5rem; font-size: 0.95rem; }
+
+    /* GAMES GRID */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+    .game-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .game-card:hover { border-color: var(--accent); }
+    .game-thumb {
+      width: 100%;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .game-info { padding: 1rem; }
+    .game-info h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .game-info p { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.8rem; }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .badge-released { background: #1a3a2a; color: #5ec98a; }
+    .badge-wip { background: #2a2a10; color: #c9b85e; }
+    .badge-soon { background: #1a1a3a; color: #7e9ee0; }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem;
+    }
+    .about-card .icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+    .about-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .about-card p { color: var(--muted); font-size: 0.85rem; }
+
+    /* CONTACT */
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      max-width: 480px;
+    }
+    .contact-box p { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .contact-box a { color: var(--accent-light); }
+    .social-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .social-links a {
+      display: inline-block;
+      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .social-links a:hover { color: var(--text); border-color: var(--accent); text-decoration: none; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* DIVIDER */
+    .divider { border: none; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Dark<span>Forge</span> Studios</div>
+    <ul>
+      <li><a href="#games">Games</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <h1>We make <span>games</span><br>people remember.</h1>
+    <p>An indie studio crafting weird, ambitious, and heartfelt games since 2022.</p>
+    <a href="#games" class="btn">Our games</a>
+    <a href="#about" class="btn btn-outline">About us</a>
+  </div>
+
+  <section id="games">
+    <h2>Games</h2>
+    <p class="section-sub">Everything we've shipped and what's coming next.</p>
+    <div class="games-grid">
+
+      <div class="game-card">
+        <div class="game-thumb" style="background:#1a1025;">&#127756;</div>
+        <div class="game-info">
+          <h3>Hollow Drift</h3>
+          <p>A lo-fi puzzle game about ships lost between stars.</p>
+          <span class="badge badge-released">Released</span>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-thumb" style="background:#0f1f10;">&#127807;</div>
+        <div class="game-info">
+          <h3>Rootborn</h3>
+          <p>Survival roguelike set in a forest that remembers.</p>
+          <span class="badge badge-wip">In development</span>
+        </div>
+      </div>
+
+      <div class="game-card">
+        <div class="game-thumb" style="background:#1a1010;">&#128293;</div>
+        <div class="game-info">
+          <h3>Project Ember</h3>
+          <p>Action RPG. Not much to say yet — wishlisting soon.</p>
+          <span class="badge badge-soon">Coming soon</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <section id="about">
+    <h2>About</h2>
+    <p class="section-sub">A small team, a big backlog of ideas.</p>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="icon">&#127918;</div>
+        <h3>Small team</h3>
+        <p>3 people. Every decision is deliberate.</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">&#127891;</div>
+        <h3>Indie roots</h3>
+        <p>No investors, no mandates. We own what we make.</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">&#128187;</div>
+        <h3>Our tools</h3>
+        <p>Godot, Aseprite, Ableton, and a lot of coffee.</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">&#127757;</div>
+        <h3>Based in</h3>
+        <p>Remotely distributed — team spread across 3 countries.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p class="section-sub">Press, collabs, or just want to say hi.</p>
+    <div class="contact-box">
+      <p>Reach us at <a href="mailto:hello@darkforge.studio">hello@darkforge.studio</a> or find us on socials.</p>
+      <div class="social-links">
+        <a href="#">Twitter / X</a>
+        <a href="#">Bluesky</a>
+        <a href="#">itch.io</a>
+        <a href="#">Steam</a>
+        <a href="#">Discord</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 DarkForge Studios &mdash; All rights reserved.
+  </footer>
+
+</body>
+</html>
