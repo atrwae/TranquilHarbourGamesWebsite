@@ -3,92 +3,1054 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>404 - Page Not Found</title>
+<title>Tranquil Harbour Games — Unity Console Porting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-    :root {
-        --beige: #f4efe6;
-        --blue: #4a7c8c;
-        --bronze: #8c5a3c;
-        --dark-bronze: #5c3a27;
-    }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-        margin: 0;
-        font-family: "Segoe UI", Tahoma, sans-serif;
-        background-color: var(--beige);
-        color: var(--dark-bronze);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        text-align: center;
-    }
+  :root {
+    --cream:    #F5F0E8;
+    --cream2:   #EDE8DC;
+    --brown:    #5C3D2E;
+    --brown-dk: #3A2318;
+    --brown-lt: #8A6448;
+    --gold:     #B8893A;
+    --gold-lt:  #D4A855;
+    --ink:      #2A1F16;
+    --muted:    #7A6555;
+    --rule:     rgba(92,61,46,0.15);
+    --ff-serif: 'Playfair Display', Georgia, serif;
+    --ff-sans:  'DM Sans', system-ui, sans-serif;
+    --ff-mono:  'DM Mono', monospace;
+  }
 
-    .container {
-        max-width: 500px;
-    }
+  html { scroll-behavior: smooth; }
 
-    h1 {
-        font-size: 6rem;
-        margin: 0;
-        color: var(--bronze);
-    }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--ff-sans);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
 
-    h2 {
-        margin: 10px 0;
-        font-weight: 500;
-    }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+  }
 
-    p {
-        color: #6b5a4d;
-        margin-bottom: 30px;
-    }
+  /* ── Nav ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4rem;
+    height: 72px;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
 
-    .wave {
-        width: 100%;
-        height: 60px;
-        margin: 20px 0;
-        background: repeating-linear-gradient(
-            90deg,
-            var(--blue),
-            var(--blue) 20px,
-            #6fa3b3 20px,
-            #6fa3b3 40px
-        );
-        border-radius: 10px;
-    }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
 
-    a {
-        display: inline-block;
-        padding: 12px 25px;
-        text-decoration: none;
-        background-color: var(--bronze);
-        color: var(--beige);
-        border-radius: 25px;
-        transition: all 0.3s ease;
-    }
+  .nav-logo img { width: 36px; height: 36px; border-radius: 6px; }
 
-    a:hover {
-        background-color: var(--dark-bronze);
-        transform: translateY(-2px);
-    }
+  .nav-wordmark {
+    font-family: var(--ff-serif);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--brown-dk);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
 
-    .boat {
-        font-size: 2rem;
-        margin-bottom: 10px;
+  .nav-wordmark span {
+    display: block;
+    font-family: var(--ff-sans);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--brown); }
+
+  .nav-cta {
+    background: var(--brown) !important;
+    color: var(--cream) !important;
+    padding: 8px 20px !important;
+    border-radius: 3px;
+    letter-spacing: 0.08em !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--brown-dk) !important; }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 4rem 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(122,173,190,0.3) 20%, rgba(122,173,190,0.3) 80%, transparent);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  h1 {
+    font-family: var(--ff-serif);
+    font-size: clamp(2.8rem, 4.5vw, 4rem);
+    font-weight: 500;
+    line-height: 1.12;
+    color: var(--brown-dk);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  h1 em { font-style: italic; color: var(--brown-lt); }
+
+  .hero-sub {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 420px;
+    margin-bottom: 1.75rem;
+  }
+
+  /* Boutique note */
+  .hero-boutique {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(184,137,58,0.07);
+    border: 1px solid rgba(184,137,58,0.2);
+    border-radius: 4px;
+    padding: 11px 14px;
+    margin-bottom: 1.75rem;
+    max-width: 420px;
+  }
+
+  .hero-boutique-icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    opacity: 0.7;
+  }
+
+  .hero-boutique p {
+    font-size: 13px;
+    color: var(--brown-lt);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .hero-boutique strong {
+    font-weight: 500;
+    color: var(--brown);
+  }
+
+  .hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 2.5rem;
+  }
+
+  .pill {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brown-lt);
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 5px 10px;
+    border-radius: 2px;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; align-items: center; }
+
+  .btn-primary {
+    background: var(--brown);
+    color: var(--cream);
+    border: none;
+    padding: 14px 28px;
+    font-family: var(--ff-sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover { background: var(--brown-dk); transform: translateY(-1px); }
+
+  .btn-ghost {
+    color: var(--brown);
+    border: 1px solid rgba(92,61,46,0.3);
+    padding: 13px 24px;
+    font-family: var(--ff-sans);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .btn-ghost:hover { border-color: var(--brown); background: rgba(92,61,46,0.04); }
+
+  .hero-right { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .hero-logo-wrap { display: flex; justify-content: center; }
+
+  .hero-logo-wrap img {
+    width: 200px;
+    height: 200px;
+    border-radius: 24px;
+    filter: drop-shadow(0 20px 40px rgba(58,35,24,0.18));
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-10px); }
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .stat { background: var(--cream); padding: 1.25rem 1rem; text-align: center; }
+
+  .stat-num {
+    font-family: var(--ff-serif);
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--brown);
+    line-height: 1;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* ── Why Us ── */
+  .why {
+    background: var(--cream2);
+    padding: 6rem 4rem;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .why::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(122,173,190,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .why-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .why-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+    margin-bottom: 3.5rem;
+  }
+
+  .why h2 { color: var(--brown-dk); }
+
+  .why .section-label { color: var(--gold); }
+
+  .section-label {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+
+  h2 {
+    font-family: var(--ff-serif);
+    font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  .why-intro {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    font-weight: 300;
+    align-self: end;
+  }
+
+  /* Two-column reasons grid */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .why-item {
+    background: var(--cream);
+    padding: 1.75rem 2rem;
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+    transition: background 0.2s;
+  }
+
+  .why-item:hover { background: #F0EAE0; }
+
+  .why-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background: rgba(184,137,58,0.08);
+    border: 1px solid rgba(184,137,58,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  .why-icon svg { width: 15px; height: 15px; }
+
+  .why-text {}
+
+  .why-title {
+    font-family: var(--ff-serif);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--brown-dk);
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+  }
+
+  .why-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .why-desc em {
+    font-style: normal;
+    color: var(--brown);
+    font-weight: 400;
+  }
+
+  /* ── Projects ── */
+  .projects {
+    background: var(--brown-dk);
+    padding: 6rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .projects::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(184,137,58,0.35), transparent);
+  }
+
+  .projects-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .projects .section-label { color: var(--gold-lt); }
+  .projects h2 { color: var(--cream); }
+
+  .section-note {
+    font-size: 13px;
+    color: rgba(245,240,232,0.4);
+    font-weight: 300;
+    font-style: italic;
+    text-align: right;
+    line-height: 1.6;
+    max-width: 200px;
+    align-self: flex-end;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .project-card {
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    transition: background 0.22s;
+  }
+
+  .project-card:hover { background: #F0EAE0; }
+
+  .project-art {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    position: relative;
+    background: var(--brown-dk);
+    flex-shrink: 0;
+  }
+
+  .project-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+    opacity:0.8;
+  }
+
+  .project-card:hover .project-art img { transform: scale(1.04); }
+
+  .project-art-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, var(--brown-dk) 0%, #2A1810 100%);
+  }
+
+  .project-art-placeholder svg { opacity: 0.18; width: 48px; height: 48px; }
+
+  .project-art::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 50%;
+    background: linear-gradient(to bottom, transparent, rgba(30,16,8,0.45));
+    pointer-events: none;
+  }
+
+  .project-info {
+    padding: 1rem 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+  }
+
+  .project-title {
+    font-family: var(--ff-serif);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--brown-dk);
+    line-height: 1.25;
+  }
+
+  .project-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.65;
+    font-weight: 300;
+    flex: 1;
+  }
+
+  .project-platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 0.3rem;
+  }
+
+  .proj-plat {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--ff-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brown-lt);
+    background: var(--cream2);
+    border: 1px solid var(--rule);
+    padding: 3px 7px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  .proj-plat svg { width: 10px; height: 10px; flex-shrink: 0; opacity: 0.7; }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--brown-dk);
+    padding: 7rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center bottom, rgba(122,173,190,0.12) 0%, transparent 70%);
+  }
+
+  .cta-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+
+  .cta-section .section-label { color: var(--gold-lt); margin-bottom: 1.25rem; }
+  .cta-section h2 { color: var(--cream); margin-bottom: 1rem; }
+
+  .cta-section p {
+    color: rgba(245,240,232,0.55);
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+
+  .cta-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--ff-mono);
+    font-size: 14px;
+    color: var(--gold-lt);
+    text-decoration: none;
+    border: 1px solid rgba(184,137,58,0.3);
+    padding: 14px 28px;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .cta-email:hover { background: rgba(184,137,58,0.1); border-color: rgba(184,137,58,0.6); }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--brown-dk);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 1.75rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-left { font-size: 12px; color: rgba(245,240,232,0.3); letter-spacing: 0.05em; }
+
+  .footer-right {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.25);
+  }
+
+  /* ── Animations ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .delay-1 { transition-delay: 0.1s; }
+  .delay-2 { transition-delay: 0.2s; }
+  .delay-3 { transition-delay: 0.3s; }
+
+  /* ── Responsive ── */
+  @media (max-width: 1200px) {
+    .projects-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 1024px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .why-header { grid-template-columns: 1fr; gap: 1rem; }
+    .why-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    nav, .projects, .why, .cta-section, footer {
+      padding-left: 1.5rem !important;
+      padding-right: 1.5rem !important;
     }
+    nav { height: auto; padding-top: 1rem; padding-bottom: 1rem; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 1.5rem 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero-sub, .hero-boutique { max-width: 100%; }
+    .hero-actions { flex-direction: column; align-items: flex-start; }
+    .hero-logo-wrap img { width: 140px; height: 140px; }
+    .hero-stats { grid-template-columns: repeat(3, 1fr); }
+    .why { padding-top: 4rem; padding-bottom: 4rem; }
+    .projects { padding-top: 4rem; padding-bottom: 4rem; }
+    .section-header { flex-direction: column; align-items: flex-start; }
+    .section-note { text-align: left; max-width: 100%; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.8rem; }
+    .hero-actions a { width: 100%; text-align: center; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="boat">⛵</div>
-    <h1>404</h1>
-    <h2>Lost at Sea</h2>
-    <p>The page you're looking for has drifted away from it's harbour.</p>
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="logo_alpha_noTitle.png" alt="Tranquil Harbour logo">
+    <div class="nav-wordmark">
+      Tranquil Harbour
+      <span>Game Studio</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#why">Why us</a></li>
+    <li><a href="#contact" class="nav-cta">Work With Us</a></li>
+  </ul>
+</nav>
 
-    <div class="wave"></div>
-</div>
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <p class="hero-eyebrow fade-up">Unity Console Porting</p>
+      <h1 class="fade-up delay-1">Your game, <em>crafted</em><br>for every console.</h1>
+      <p class="hero-sub fade-up delay-2">From first build to certified release — Switch, PlayStation, Xbox, and Steam. Complete ownership of the entire porting process, so you can focus on what matters.</p>
 
+      <div class="hero-boutique fade-up delay-2">
+        <svg class="hero-boutique-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="6" r="2.5" stroke="#B8893A" stroke-width="1.2"/>
+          <path d="M3 13.5c0-2.761 2.239-5 5-5s5 2.239 5 5" stroke="#B8893A" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <p><strong>A specialist studio, not a faceless agency.</strong> You'll work directly with the person doing the work — a single point of contact who knows your project inside out, from the first message to ship day.</p>
+      </div>
+
+      <div class="hero-pills fade-up delay-2">
+        <span class="pill">Nintendo Switch</span>
+        <span class="pill">PlayStation</span>
+        <span class="pill">Xbox</span>
+        <span class="pill">Steam Deck</span>
+        <span class="pill">Microsoft Store</span>
+        <span class="pill">TRC · XR · Lotcheck</span>
+        <span class="pill">Unity only</span>
+      </div>
+      <div class="hero-actions fade-up delay-3">
+        <a href="#contact" class="btn-primary">Start a conversation</a>
+        <a href="#projects" class="btn-ghost">See our ports</a>
+      </div>
+    </div>
+    <div class="hero-right fade-up delay-2">
+      <div class="hero-logo-wrap">
+        <img src="logo_alpha.png" alt="Tranquil Harbour Games">
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">4+</span><span class="stat-label">Years active</span></div>
+        <div class="stat"><span class="stat-num">20+</span><span class="stat-label">Shipped titles</span></div>
+        <div class="stat"><span class="stat-num">7</span><span class="stat-label">Platforms</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Projects ── -->
+<section class="projects" id="projects">
+  <div class="projects-inner">
+    <div class="section-header">
+      <div>
+        <p class="section-label fade-up">Selected ports</p>
+        <h2 class="fade-up">What we worked on.</h2>
+      </div>
+      <p class="section-note fade-up delay-1">A selection from 20+ titles brought to console.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="project-card fade-up">
+        <div class="project-art">
+          <!--<div class="project-art-placeholder">
+            <svg viewBox="0 0 48 48" fill="none"><rect x="6" y="10" width="36" height="28" rx="4" stroke="#D4A855" stroke-width="1.5"/><circle cx="24" cy="24" r="6" stroke="#D4A855" stroke-width="1.5"/><path d="M6 18h36" stroke="#D4A855" stroke-width="1"/></svg>
+          </div>-->
+            <img src="projectIcons/wwl.avif" alt="Wild West Legacy icon">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">Wild West Legacy</h3>
+          <p class="project-desc">Large open world RPG town builder that required aggressive optimization</p>
+          <div class="project-platforms">
+              <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><rect x="1.5" y="1.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="0.8" /><path d="M3.5 3.5l3 3M6.5 3.5l-3 3" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" /></svg>Xbox</span>
+              <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="0.8" /><circle cx="5" cy="2.5" r="0.7" fill="currentColor" /><circle cx="5" cy="7.5" r="0.7" stroke="currentColor" stroke-width="0.6" /><circle cx="2.5" cy="5" r="0.7" stroke="currentColor" stroke-width="0.6" /><circle cx="7.5" cy="5" r="0.7" stroke="currentColor" stroke-width="0.6" /></svg>PS5</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up delay-1">
+        <div class="project-art">
+          <!--<div class="project-art-placeholder">
+            <svg viewBox="0 0 48 48" fill="none"><path d="M24 8L40 38H8L24 8Z" stroke="#D4A855" stroke-width="1.5" stroke-linejoin="round"/><circle cx="24" cy="30" r="3" stroke="#D4A855" stroke-width="1.5"/><path d="M24 20v6" stroke="#D4A855" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>-->
+            <img src="projectIcons/masterSpy.avif" alt="Master Spy icon">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">Master Spy</h3>
+          <p class="project-desc">Solid retro game that we rewrote to Unity from its custom engine</p>
+          <div class="project-platforms">
+            <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><path d="M5 1C2.79 1 1 2.79 1 5s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z" stroke="currentColor" stroke-width="0.8" /><path d="M3.5 3.5h3M5 3.5v3M3.5 6.5h3" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" /></svg>Switch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up delay-2">
+        <div class="project-art">
+          <!--<div class="project-art-placeholder">
+            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="14" stroke="#D4A855" stroke-width="1.5"/><path d="M24 12v24M12 24h24" stroke="#D4A855" stroke-width="1" stroke-linecap="round"/><circle cx="24" cy="24" r="5" stroke="#D4A855" stroke-width="1.5"/></svg>
+          </div>-->
+            <img src="projectIcons/flashout3.avif" alt="Flashout 3 icon">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">Flashout 3</h3>
+          <p class="project-desc">Arcade racing game with beautiful custom shaders that wouldn't work on consoles</p>
+          <div class="project-platforms">
+              <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="0.8" /><circle cx="5" cy="2.5" r="0.7" fill="currentColor" /><circle cx="5" cy="7.5" r="0.7" stroke="currentColor" stroke-width="0.6" /><circle cx="2.5" cy="5" r="0.7" stroke="currentColor" stroke-width="0.6" /><circle cx="7.5" cy="5" r="0.7" stroke="currentColor" stroke-width="0.6" /></svg>PS4</span>
+              <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><rect x="1.5" y="1.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="0.8" /><path d="M3.5 3.5l3 3M6.5 3.5l-3 3" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" /></svg>Xbox</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up delay-3">
+        <div class="project-art">
+          <!--<div class="project-art-placeholder">
+            <svg viewBox="0 0 48 48" fill="none"><rect x="8" y="8" width="14" height="14" rx="2" stroke="#D4A855" stroke-width="1.5"/><rect x="26" y="8" width="14" height="14" rx="2" stroke="#D4A855" stroke-width="1.5"/><rect x="8" y="26" width="14" height="14" rx="2" stroke="#D4A855" stroke-width="1.5"/><rect x="26" y="26" width="14" height="14" rx="2" stroke="#D4A855" stroke-width="1.5"/></svg>
+          </div>-->
+            <img src="projectIcons/uboatAttack.avif" alt="Uboat Attack icon">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">Uboat Attack</h3>
+          <p class="project-desc">Mobile game where a lot of new features were added to make it console worthy</p>
+          <div class="project-platforms">
+            <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="0.8"/><circle cx="5" cy="2.5" r="0.7" fill="currentColor"/><circle cx="5" cy="7.5" r="0.7" stroke="currentColor" stroke-width="0.6"/><circle cx="2.5" cy="5" r="0.7" stroke="currentColor" stroke-width="0.6"/><circle cx="7.5" cy="5" r="0.7" stroke="currentColor" stroke-width="0.6"/></svg>PS5</span>
+            <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><rect x="1.5" y="1.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="0.8"/><path d="M3.5 3.5l3 3M6.5 3.5l-3 3" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg>Xbox</span>
+            <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><rect x="1" y="3" width="8" height="5" rx="2.5" stroke="currentColor" stroke-width="0.8" /><circle cx="3" cy="5.5" r="1" fill="currentColor" /><path d="M5.5 4.5h2M5.5 5.5h1.5M5.5 6.5h2" stroke="currentColor" stroke-width="0.6" stroke-linecap="round" /></svg>Steam Deck</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up">
+        <div class="project-art">
+          <!--<div class="project-art-placeholder">
+            <svg viewBox="0 0 48 48" fill="none"><path d="M8 36L24 12L40 36" stroke="#D4A855" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 28l10-14 10 14" stroke="#D4A855" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/></svg>
+          </div>-->
+            <img src="projectIcons/cyjin.avif" alt="Cyjin icon">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">Cyjin: The Cyborg Ninja</h3>
+          <p class="project-desc">Quick paced platformer with build size issues</p>
+          <div class="project-platforms">
+            <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><path d="M5 1C2.79 1 1 2.79 1 5s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z" stroke="currentColor" stroke-width="0.8"/><path d="M3.5 3.5h3M5 3.5v3M3.5 6.5h3" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg>Switch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up delay-1">
+        <div class="project-art">
+          <!--<div class="project-art-placeholder">
+            <svg viewBox="0 0 48 48" fill="none"><path d="M16 8h16v8l4 8-4 8v8H16v-8l-4-8 4-8V8z" stroke="#D4A855" stroke-width="1.5" stroke-linejoin="round"/><circle cx="24" cy="24" r="4" stroke="#D4A855" stroke-width="1.5"/></svg>
+          </div>-->
+            <img src="projectIcons/notnot.avif" alt="Not Not icon">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">Not Not</h3>
+          <p class="project-desc">Classic brain buster needing keyboard/gamepad compatibility polish</p>
+          <div class="project-platforms">
+              <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><rect x="1.5" y="1.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="0.8" /><path d="M3.5 3.5l3 3M6.5 3.5l-3 3" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" /></svg>Xbox</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up delay-2">
+        <div class="project-art">
+          <!--<div class="project-art-placeholder">
+            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="20" r="8" stroke="#D4A855" stroke-width="1.5"/><path d="M12 40c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="#D4A855" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>-->
+            <img src="projectIcons/woodturning.avif" alt="Woodturning icon">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">Woodturning</h3>
+          <p class="project-desc">A simple game with complex save system storing mesh and texture modifications</p>
+          <div class="project-platforms">
+              <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><path d="M5 1C2.79 1 1 2.79 1 5s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z" stroke="currentColor" stroke-width="0.8" /><path d="M3.5 3.5h3M5 3.5v3M3.5 6.5h3" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" /></svg>Switch</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card fade-up delay-3">
+        <div class="project-art">
+          <!--<div class="project-art-placeholder">
+            <svg viewBox="0 0 48 48" fill="none"><path d="M10 38V20l14-10 14 10v18H10z" stroke="#D4A855" stroke-width="1.5" stroke-linejoin="round"/><rect x="19" y="26" width="10" height="12" rx="1" stroke="#D4A855" stroke-width="1.5"/><path d="M10 28h28" stroke="#D4A855" stroke-width="1" stroke-linecap="round" opacity="0.5"/></svg>
+          </div>-->
+            <img src="projectIcons/zombieRaft.avif" alt="Zombie Raft icon">
+        </div>
+        <div class="project-info">
+          <h3 class="project-title">Zombie Raft</h3>
+          <p class="project-desc">A base-builder where we heavily modified the gameplay loop and added a couch co-op</p>
+          <div class="project-platforms">
+            <span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><path d="M5 1C2.79 1 1 2.79 1 5s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z" stroke="currentColor" stroke-width="0.8" /><path d="M3.5 3.5h3M5 3.5v3M3.5 6.5h3" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" /></svg>Switch</span>
+            <!--<span class="proj-plat"><svg viewBox="0 0 10 10" fill="none"><path d="M2 7c0-1.657 1.343-3 3-3s3 1.343 3 3" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/><path d="M5 4V1.5" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/><circle cx="5" cy="1.5" r="0.7" fill="currentColor"/><path d="M2 7h6" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg>Steam</span>-->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Why Us ── -->
+<section class="why" id="why">
+  <div class="why-inner">
+    <div class="why-header">
+      <div>
+        <p class="section-label fade-up">Why work with us</p>
+        <h2 class="fade-up">What you're actually<br><em style="font-style:italic; color: var(--brown-lt);">paying for.</em></h2>
+      </div>
+      <p class="why-intro fade-up delay-1">Console porting is a rabbit hole of SDK documentation, undocumented quirks, and certification gotchas. It's our daily reality
+and we've learnt to function well within it.</p>
+    </div>
+
+    <div class="why-grid">
+
+      <div class="why-item fade-up">
+        <div class="why-icon">
+          <svg viewBox="0 0 15 15" fill="none"><path d="M2 4h11M2 7.5h7M2 11h5" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="why-text">
+          <p class="why-title">Skip the SDK rabbit hole</p>
+          <p class="why-desc">Console documentation runs to thousands of pages, and the important parts are often undocumented entirely — some quirks take weeks of trial and error to solve. <em>That time cost lands on us,</em> not you.</p>
+        </div>
+      </div>
+
+      <div class="why-item fade-up delay-1">
+        <div class="why-icon">
+          <svg viewBox="0 0 15 15" fill="none"><rect x="1.5" y="3" width="12" height="9" rx="1.5" stroke="#D4A855" stroke-width="1.2"/><path d="M4 9l2.5-3L9 8l1.5-2" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-text">
+          <p class="why-title">Deep RAM &amp; performance work</p>
+          <p class="why-desc">Consoles have hard memory ceilings with no memory paging and no forgiveness for frame drops. We bring hardware-specific tricks, profiling depth, and SDK-level optimisations that meaningfully move the needle on load times and stability.</p>
+        </div>
+      </div>
+
+      <div class="why-item fade-up">
+        <div class="why-icon">
+          <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 2L9.5 6H13.5L10.5 8.5L11.5 12.5L7.5 10L3.5 12.5L4.5 8.5L1.5 6H5.5L7.5 2Z" stroke="#D4A855" stroke-width="1.1" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-text">
+          <p class="why-title">No shortcuts that haunt you later</p>
+          <p class="why-desc">Deep Unity knowledge combined with deep console knowledge means we implement things correctly, not as hacks. <em>No technical debt</em> quietly waiting to bite future updates.</p>
+        </div>
+      </div>
+
+      <div class="why-item fade-up delay-1">
+        <div class="why-icon">
+          <svg viewBox="0 0 15 15" fill="none"><path d="M3 7.5C3 5 5 3 7.5 3C10 3 12 5 12 7.5" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round"/><path d="M7.5 12V7.5" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round"/><path d="M5.5 10l2 2 2-2" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-text">
+          <p class="why-title">Updates that propagate cleanly</p>
+          <p class="why-desc">We structure the port so future patches flow from one platform to all others with minimal effort. And if you want to ship updates yourself, <em>we'll teach you how.</em></p>
+        </div>
+      </div>
+
+      <div class="why-item fade-up">
+        <div class="why-icon">
+          <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5L9 5.5H13L9.5 7.5L11 12L7.5 9.5L4 12L5.5 7.5L2 5.5H6L7.5 1.5Z" stroke="#D4A855" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        <div class="why-text">
+          <p class="why-title">Certification without the drama</p>
+          <p class="why-desc">We know what certification teams look for and we design for <em>compliance from day one</em> — not as a final sprint. It saves time for everyone involved and certification staff appreciates it too :)</p>
+        </div>
+      </div>
+
+      <div class="why-item fade-up delay-1">
+        <div class="why-icon">
+          <svg viewBox="0 0 15 15" fill="none"><rect x="1.5" y="2.5" width="12" height="10" rx="1.5" stroke="#D4A855" stroke-width="1.2"/><circle cx="5" cy="7.5" r="1.5" stroke="#D4A855" stroke-width="1.1"/><path d="M9 6h3M9 9h2" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="why-text">
+          <p class="why-title">Platform-native features done right</p>
+          <p class="why-desc">PS5 lightbar and haptics, Xbox cross-platform cloud saves, Nintendo single Joy-Con controls — console players notice when these are missing or half-baked. <em>We implement them properly.</em></p>
+        </div>
+      </div>
+
+      <div class="why-item fade-up">
+        <div class="why-icon">
+          <svg viewBox="0 0 15 15" fill="none"><path d="M2 11V5.5L7.5 2L13 5.5V11" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 11V8.5h5V11" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="why-text">
+          <p class="why-title">QA is on us</p>
+          <p class="why-desc">We handle testing ourselves, so iterations move faster and the QA loop stays out of your head entirely. You review results, not bug reports.</p>
+        </div>
+      </div>
+
+      <div class="why-item fade-up delay-1">
+        <div class="why-icon">
+          <svg viewBox="0 0 15 15" fill="none"><path d="M2 11.5C2 9.5 3.5 8 5.5 8H9.5C11.5 8 13 9.5 13 11.5" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round"/><circle cx="7.5" cy="4.5" r="2" stroke="#D4A855" stroke-width="1.2"/><path d="M5 13.5h5" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="why-text">
+          <p class="why-title">Direct, transparent communication</p>
+          <p class="why-desc">You talk to the person doing the work — not a project manager relaying messages. <em>Regular progress reports,</em> access to the live task board, and honest timelines. No surprises.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section" id="contact">
+  <div class="cta-inner">
+    <p class="section-label fade-up">Get in touch</p>
+    <h2 class="fade-up">Ready to bring your game to console?</h2>
+    <p class="fade-up delay-1">Tell us about your project. You'll get a direct reply — no intake forms, no sales pipeline. Just an honest conversation about whether we're a good fit.</p>
+    <a href="mailto:contact@tranquilharbour.games" class="cta-email fade-up delay-2">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="opacity:0.7"><rect x="1" y="3" width="12" height="9" rx="1.5" stroke="#D4A855" stroke-width="1.2"/><path d="M1 4.5L7 8.5L13 4.5" stroke="#D4A855" stroke-width="1.2" stroke-linecap="round"/></svg>
+      contact@tranquilharbour.games
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-left">© 2025 Tranquil Harbour Games. All rights reserved.</p>
+  <p class="footer-right">Unity Console Specialists</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  document.querySelectorAll('.hero .fade-up').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), i * 120);
+  });
+</script>
 </body>
 </html>
